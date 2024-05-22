@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
+use CommissionCalculator\App;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$container = new ContainerBuilder();
+
+(new YamlFileLoader(
+        $container,
+        new FileLocator(__DIR__ . '/config'),
+    )
+)->load('services.yaml');
+
+$container->compile();
+
+exit($container->get(App::class)->run());

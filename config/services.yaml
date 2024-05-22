@@ -1,0 +1,25 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    CommissionCalculator\:
+        resource: '../src/'
+        exclude:
+            - '../Test/'
+
+    _instanceof:
+        Symfony\Component\Console\Command\Command:
+            tags: ['command']
+
+    CommissionCalculator\App:
+        public: true
+        arguments:
+          - !tagged command
+
+    Symfony\Contracts\HttpClient\HttpClientInterface:
+        class: Symfony\Component\HttpClient\NativeHttpClient
+
+
+    Psr\Log\LoggerInterface:
+        class: CommissionCalculator\Logger\Logger
